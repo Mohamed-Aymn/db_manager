@@ -10,8 +10,10 @@ import java.io.IOException;
 public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
+        // load first fxml file
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("signin.fxml"));
 
+        // scene config logic
         Scene scene = new Scene(fxmlLoader.load(), 600, 400);
         stage.setTitle("db Manager");
         stage.setResizable(false);

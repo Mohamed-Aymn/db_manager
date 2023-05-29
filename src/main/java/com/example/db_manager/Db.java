@@ -2,7 +2,7 @@ package com.example.db_manager;
 import java.sql.*;
 
 public class Db {
-    public Connection connection;
+    static Connection connection;
 //    Statement statement = connection.createStatement();
 
     private String URL = "jdbc:mysql://localhost:3307/db_manager";
@@ -19,6 +19,10 @@ public class Db {
             connection = DriverManager.getConnection(URL, USER, PASSWORD);
             isConnected = true;
             System.out.println("database connection succeed");
+
+
+
+
         }catch(Exception e){
             e.printStackTrace();
             System.out.println("database connection failed");

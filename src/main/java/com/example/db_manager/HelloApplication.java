@@ -14,6 +14,7 @@ public class HelloApplication extends Application {
         db.connect();
 
 
+
         // load first fxml file
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("signin.fxml"));
 

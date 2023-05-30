@@ -41,9 +41,15 @@ public class SigninController {
                 if(resultSet.next()){
                     if (resultSet.getString("name").equals("admin")) isAdmin = true;
                 }
+
+                resultSet.close();
+                statement.close();
+
             }catch(SQLException e){
                 e.printStackTrace();
             }
+
+
 
             // don't continue the function if the user don't pass auth
             if (!isAdmin) {

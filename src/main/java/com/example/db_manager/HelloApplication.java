@@ -13,8 +13,6 @@ public class HelloApplication extends Application {
         Db db = new Db();
         db.connect();
 
-
-
         // load first fxml file
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("signin.fxml"));
 

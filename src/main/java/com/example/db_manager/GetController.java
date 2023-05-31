@@ -35,11 +35,7 @@ public class GetController implements Initializable {
     // invoke a function when the controller is loaded
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
         importData();
-
-
-
     }
 
     void importData(){

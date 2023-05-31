@@ -18,26 +18,6 @@ public class User {
         this.salary = salary;
     }
 
-    public static List<User> getUsers() throws SQLException {
-        List<User> users = new ArrayList<>();
-        Connection connection = Db.connection;
-
-        String sql = "SELECT * FROM users";
-        PreparedStatement statement = connection.prepareStatement(sql);
-        ResultSet resultSet = statement.executeQuery();
-
-        while (resultSet.next()) {
-            int id = resultSet.getInt("id");
-            String name = resultSet.getString("name");
-            int salary = resultSet.getInt("salary");
-
-            User user = new User(id, name,salary);
-            users.add(user);
-        }
-
-        return users;
-    }
-
     int getId(){
         return this.id;
     }

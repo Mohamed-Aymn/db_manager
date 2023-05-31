@@ -1,6 +1,5 @@
 package com.example.db_manager;
 
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -13,13 +12,11 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
-import java.util.List;
 import java.util.ResourceBundle;
 
 
@@ -27,21 +24,23 @@ public class GetController implements Initializable {
 
     public TableView table;
     public VBox textFieldContainer;
+    public TextField idTextField;
+    public TextField nameTextField;
+    public TextField salaryTextField;
     @FXML private TableColumn<User, Integer> idColumn;
     @FXML private TableColumn<User, String> nameColumn;
     @FXML private TableColumn<User, Integer> salaryColumn;
 
 
+    // invoke a function when the controller is loaded
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // invoke a function when the controller is loaded
 
         importData();
 
+
+
     }
-
-
-
 
     void importData(){
         ObservableList<User> data = FXCollections.observableArrayList();
@@ -55,8 +54,7 @@ public class GetController implements Initializable {
             ResultSet rs = statement.executeQuery();
             ObservableList<User> Users = FXCollections.observableArrayList();
 
-            while (rs.next())
-            {
+            while (rs.next()){
                 User user = new User(rs.getInt("id"), rs.getString("name"), rs.getInt("salary"));
                 Users.add(user);
             }
@@ -72,42 +70,34 @@ public class GetController implements Initializable {
 
     @FXML
     void get(ActionEvent event){
-        ObservableList<Node> children = textFieldContainer.getChildren();
-        String query = "select * from users where ";
-        boolean isFilled = false;
+        String query = "select id, name, salary from users where ";
+        boolean isFirst = true;
+
+        TextField [] textFields = new TextField[3];
+        textFields[0] = idTextField;
+        textFields[1] = nameTextField;
+        textFields[2] = salaryTextField;
 
         // create dynamic sql query
-        for (int i = 0; i < children.size(); i++){
-            Node child = children.get(i);
-
-            if (child instanceof TextField) {
-                TextField textField = (TextField) child;
-                String id = textField.getId();
-
-                if (!textField.getText().equals("")){
-                    if(isFilled) query+= "and ";
-
-                    query += id + " = " + textField.getText() + " ";
-
-                    Node nextChild = children.get(i+1);
-                    if (child instanceof TextField){
-                        if (nextChild != null) {
-                            isFilled = true;
-                        }else {
-                            isFilled= false;
-                        }
-                    }
+        for (int i = 0; i < 3; i++){
+            if (!textFields[i].getText().equals("")) {
+                if (i != 0 && !isFirst){
+                    query += "and ";
                 }
+                query += textFields[i].getPromptText().toLowerCase() + " = " + "'" + textFields[i].getText() + "'" + " ";
+                isFirst = false;
             }
         }
-
         Connection connection = Db.connection;
         try {
             Statement stm = connection.createStatement();
             ResultSet rs = stm.executeQuery(query);
+            ObservableList<User> data = FXCollections.observableArrayList();
             while(rs.next()){
-                System.out.println(rs.getString("name"));
+                User user = new User(rs.getInt("id"), rs.getString("name"), rs.getInt("salary"));
+                data.add(user);
             }
+            table.setItems(data);
             rs.close();
             stm.close();
 

@@ -29,8 +29,8 @@
             <TableColumn prefWidth="89.5999755859375" text="name" fx:id="nameColumn" />
             <TableColumn prefWidth="96.0" text="salary" fx:id="salaryColumn" />
          </columns></TableView>
-      <TextField layoutX="41.0" layoutY="103.0" prefHeight="26.0" prefWidth="212.0" promptText="Id" />
-      <TextField layoutX="41.0" layoutY="138.0" prefHeight="26.0" prefWidth="212.0" promptText="Name" />
-      <TextField layoutX="41.0" layoutY="173.0" prefHeight="26.0" prefWidth="212.0" promptText="Salary" />
+      <TextField fx:id="idTextField" layoutX="41.0" layoutY="103.0" prefHeight="26.0" prefWidth="212.0" promptText="Id" />
+      <TextField fx:id="nameTextField" layoutX="41.0" layoutY="138.0" prefHeight="26.0" prefWidth="212.0" promptText="Name" />
+      <TextField fx:id="salaryTextField" layoutX="41.0" layoutY="173.0" prefHeight="26.0" prefWidth="212.0" promptText="Salary" />
    </children>
 </AnchorPane>

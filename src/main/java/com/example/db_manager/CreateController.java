@@ -1,9 +1,5 @@
 package com.example.db_manager;
 
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,16 +11,17 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
 import java.util.ResourceBundle;
 
-public class CAndDController implements Initializable {
+public class CreateController implements Initializable {
 
     @FXML
     private Text title;
+    @FXML
+    public Button cancelButton;
     @FXML
     private Button cOrUButton;
     @FXML
@@ -42,18 +39,57 @@ public class CAndDController implements Initializable {
         title.setText("Create");
         cOrUButton.setText("Create");
     }
+
+    public void showDialogue() {
+//        DialogueThread dialogue = new DialogueThread("Do you want to continue?");
+//        dialogue.start();
+
+
+
+    }
+
     @FXML
-    void cancel (ActionEvent event) throws IOException{
-        try{
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("get.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
-        }catch(IOException e){
-            System.out.println("get view not found");
-        }
+    void cancel (ActionEvent event) throws IOException, InterruptedException {
+
+        DialogueThread.DialogueCallback callback = new DialogueThread.DialogueCallback() {
+            @Override
+            public void onOkClicked() {
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("get.fxml"));
+                    Parent root = loader.load();
+                    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                    Scene scene = new Scene(root);
+                    stage.setScene(scene);
+                    stage.show();
+                } catch (IOException exception) {
+                    exception.printStackTrace();
+                    System.out.println("get view not found");
+                }
+            }
+
+            @Override
+            public void onCancelClicked() {
+                System.out.println("cancel is clicked");
+            }
+        };
+        DialogueThread dialogue = new DialogueThread("Do you want to continue?", callback);
+        dialogue.start();
+
+
+
+
+//        if (result == 1){
+//            try {
+//                FXMLLoader loader = new FXMLLoader(getClass().getResource("get.fxml"));
+//                Parent root = loader.load();
+//                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+//                Scene scene = new Scene(root);
+//                stage.setScene(scene);
+//                stage.show();
+//            } catch (IOException exception) {
+//                System.out.println("get view not found");
+//            }
+//        }
     }
 
     public void CorU(ActionEvent event) {

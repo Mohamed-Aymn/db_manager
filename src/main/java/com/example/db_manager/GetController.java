@@ -22,6 +22,7 @@ import java.util.ResourceBundle;
 
 public class GetController implements Initializable {
 
+    // control all fxml elements that should be controlled
     public TableView table;
     public VBox textFieldContainer;
     public TextField idTextField;
@@ -36,6 +37,8 @@ public class GetController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         importData();
+
+
     }
 
     void importData(){
@@ -66,6 +69,10 @@ public class GetController implements Initializable {
 
     @FXML
     void get(ActionEvent event){
+
+        if (idTextField.getText().equals("") && nameTextField.getText().equals("") && salaryTextField.getText().equals(""))
+            return;
+
         String query = "select id, name, salary from users where ";
         boolean isFirst = true;
 
@@ -74,7 +81,7 @@ public class GetController implements Initializable {
         textFields[1] = nameTextField;
         textFields[2] = salaryTextField;
 
-        // create dynamic sql query
+        // create dynamic sql query to ignore empty fields
         for (int i = 0; i < 3; i++){
             if (!textFields[i].getText().equals("")) {
                 if (i != 0 && !isFirst){
@@ -84,6 +91,8 @@ public class GetController implements Initializable {
                 isFirst = false;
             }
         }
+
+        // call database static variable from Db class and execute the query
         Connection connection = Db.connection;
         try {
             Statement stm = connection.createStatement();
@@ -102,17 +111,19 @@ public class GetController implements Initializable {
         }
     }
 
+    // just switch to create view
     @FXML
     void goToCreatePage (ActionEvent event) throws IOException{
         try{
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("cAndD.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("create.fxml"));
             Parent root = loader.load();
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
         }catch(IOException e){
-            System.out.println("cAndD view not found");
+            e.printStackTrace();
+            System.out.println("create view not found");
         }
     }
 }

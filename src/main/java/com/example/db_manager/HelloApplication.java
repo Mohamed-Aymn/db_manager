@@ -11,6 +11,7 @@ public class HelloApplication extends Application {
     public void start(Stage stage) throws IOException {
         // database connection
         Db db = new Db();
+        // this connection function will be called once as it is static connection
         db.connect();
 
         // load first fxml file

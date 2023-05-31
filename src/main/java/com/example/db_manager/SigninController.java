@@ -23,17 +23,16 @@ public class SigninController {
         private Label errorMessageLabel;
         @FXML
         private TextField password;
-
         @FXML
         void close(ActionEvent event) {
             Platform.exit();
         }
-
         @FXML
         void signin(ActionEvent event) throws IOException, SQLException  {
             Connection connection = Db.connection;
             boolean isAdmin = false;
 
+            // check if he is admin or not for stored data in mysql db
             try {
                 Statement statement = connection.createStatement();
                 ResultSet resultSet = statement.executeQuery("select * from users where name = 'admin' AND password = '"+ password.getText() +"'");
@@ -41,14 +40,12 @@ public class SigninController {
                 if(resultSet.next()){
                     if (resultSet.getString("name").equals("admin")) isAdmin = true;
                 }
-
                 resultSet.close();
                 statement.close();
 
             }catch(SQLException e){
                 e.printStackTrace();
             }
-
 
 
             // don't continue the function if the user don't pass auth

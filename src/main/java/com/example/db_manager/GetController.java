@@ -33,20 +33,18 @@ public class GetController implements Initializable {
     @FXML private TableColumn<User, Integer> salaryColumn;
 
 
-    // invoke a function when the controller is loaded
+    // invoke a function when the controller is loaded to import data in the table one the scene is loaded
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         importData();
-
-
     }
 
+    // import data function that will be called one the scene is loaded
     void importData(){
         ObservableList<User> data = FXCollections.observableArrayList();
         table.setItems(data);
 
         Connection connection = Db.connection;
-
         String sql = "SELECT id, name, salary FROM users";
         try{
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -70,12 +68,14 @@ public class GetController implements Initializable {
     @FXML
     void get(ActionEvent event){
 
+        // don't do anything if input fields are empty
         if (idTextField.getText().equals("") && nameTextField.getText().equals("") && salaryTextField.getText().equals(""))
             return;
 
         String query = "select id, name, salary from users where ";
         boolean isFirst = true;
 
+        // create an array of input fields to make manipulation easy with array methods
         TextField [] textFields = new TextField[3];
         textFields[0] = idTextField;
         textFields[1] = nameTextField;
